@@ -8,7 +8,7 @@ Getting Started with Python Binding
 ## Overview
 This is a tutorial for getting started with GraphIt and using the python bindings to compile GraphIt programs as a library and call it from python. If you are looking for a tutorial on building GraphIt programs as standalone application, you can visit the [Standalone Getting Started](getting-started) tutorial. 
 
-In this tutorial we will write the PagerankDelta algorithm in GraphIt and run it from python on a graph loaded in python. We will also measure the performance of this algorithm from python. We will learn how to separate initialization from actual execution to get appropriate timing numbers. 
+In this tutorial we will write the PagerankDelta algorithm in GraphIt and run it from python on a graph loaded in python. We will also measure the performance of this algorithm from python. We will learn how to separate initialization from actual execution to get meaningful timing numbers. 
 This tutorial is broadly devided in the following sections - 
 
 * auto-gen TOC:
@@ -36,7 +36,7 @@ const vertices : vertexset{Vertex};
 const cur_rank : vector{Vertex}(float);
 const ngh_sum : vector{Vertex}(float);
 const delta : vector{Vertex}(float);
-const out_degree : vector {Vertex}(int);
+const out_degree : vector{Vertex}(int);
 const damp : float = 0.85;
 const beta_score : float;
 const epsilon2 : float = 0.1;
@@ -104,7 +104,7 @@ end
 
 Here we will go through an example of writing GraphIt code for the Page Rank Delta application and then calling it from python using the python bindings. You can find the code used in this example along with a few other applicaitons under graphit/apps directory [here](https://github.com/yunmingzhang17/graphit/tree/master/apps). 
 
-Additionally here is a link to the [GraphIt OOPSLA18 paper](https://dl.acm.org/citation.cfm?id=3276491) or [the arxiv report here](https://arxiv.org/pdf/1805.00923.pdf).  Sections 4 and 5 give the complete breakdown of the Page Rank Delta code. Please look here if you want a more detailed breakdown of the functionality of GraphIt.
+Additionally here is a link to the [GraphIt OOPSLA18 paper](https://dl.acm.org/citation.cfm?id=3276491) or [the arxiv report here](https://arxiv.org/pdf/1805.00923.pdf).  Sections 4 and 5 give the complete breakdown of the PageRankDelta code. Please look here if you want a more detailed breakdown of the functionality of GraphIt.
 
 ###      Algorithm Explanatation
 ```
@@ -131,7 +131,7 @@ We have added the `const` keyword before the declarations to indicate these vert
 const cur_rank : vector{Vertex}(float);
 const ngh_sum : vector{Vertex}(float);
 const delta : vector{Vertex}(float);
-const out_degree : vector {Vertex}(int);
+const out_degree : vector{Vertex}(int);
 ```
 *vector definitions*
 
@@ -228,7 +228,7 @@ We initialize the values for the vectors by using a user defined function `initV
 
 You should note here that we have created a separate `set_graph` function to isolate it from the actual algorithm in the `do_pagerank_delta` function. We do this so we can measure the performance of the actual algorithm and not the cost of initializing the graph related datastructures. If you are not timing the execution of the algorith, it is perfectly fine to add an arguement to the main `do_pagerank_delta` function and do all the initializations there. 
 
-Now, all the data structures are initialized and we are ready to actuall perfom the pagerank_delta operation. 
+Now, all the data structures are initialized and we are ready to perfom the pagerank_delta operation. 
 
 ```
 export func do_pagerank_delta() -> final_ranks: vector{Vertex} (float)
@@ -283,7 +283,13 @@ Before we start building GraphIt we need to make sure we have all the dependenci
 6. scipy 
 
 
-To perform an out-of-tree build of Graphit do:
+To perform an out-of-tree build of Graphit:
+
+First clone the repository. 
+
+```
+git clone git@github.com:GraphIt-DSL/graphit.git
+```
 
 After you have cloned the directory:
 ```
@@ -331,11 +337,11 @@ end_time = time.perf_counter()
 print ("Time elapsed = " + str(end_time - start_time) + " seconds")
 ```
 
-We start by importing the `graphit` module. This module has tall the helper functions to compile and invoke Graphit functions. We also import the supporting libraries required to load the graph and time the computation. 
+We start by importing the `graphit` module. This module has helper functions to compile and invoke Graphit functions. We also import the supporting libraries required to load the graph and time the computation. 
 
 We then ask the graphit module to load the GraphIt program we wrote using the `compile_and_load` function. We pass to it the path of the file we wrote above. This function returns a module that has all the functions we had exported form the GraphIt file. Notice that for the path, we have just provided `"pagerank_delta_export.gt"` because the file is in the same directory. But you should provide the full path here if it is in a different directory. 
 
-Next we laod the graph in the `scipy.sparse.csr_matrix` format. Assuming the graph is stored in the MatrixMarket format, we use the `scipy.io.mmread` function which returns the graph in the `scipy.sparse.coo_matrix` format. We convert it to the `csr_matrix` format and store it in the `graph` variable. We will be specifying the input graph file name at run time and hence we have used the `sys.argv[1]` as input file name.
+Next we load the graph in the `scipy.sparse.csr_matrix` format. Assuming the graph is stored in the MatrixMarket format, we use the `scipy.io.mmread` function which returns the graph in the `scipy.sparse.coo_matrix` format. We convert it to the `csr_matrix` format and store it in the `graph` variable. We will be specifying the input graph file name at run time and hence we have used the `sys.argv[1]` as input file name.
 
 We then pass this graph to the pagerank_delta program by invoking the `set_graph` function we had defined. Finally we invoke the `do_pagerank_delta` function and save its return value in the ranks. We also time the call to this function by calling the `time.perf_counter()` function before and after the function call and substracting the time. 
 
@@ -349,7 +355,7 @@ We are ready to run this program using python3. We can invoke the command -
 python3 pagerank_delta.py <path/to/graph.mtx>
 ```
 
-If everything runs properly, this will output the time elapsed for computation. 
+Running the code outputs the time elapsed to run the computation.
 
 ### Fix if python3 cannot find GraphIt
 
