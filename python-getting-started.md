@@ -279,9 +279,11 @@ Before we start building GraphIt we need to make sure we have all the dependenci
 2. g++ (version >= 5.4)
 3. python 2.7 or Python 3.x (for running basic test cases)
 4. python 3.x (x >= 5, for python bindings)
-5. pybind11
-6. scipy 
-
+5. pip3 (for installing the required packages)
+6. pybind11
+	- can be installed using the command `pip3 install pybind11`
+7. scipy 
+	- can be installed using the command `pip3 install scipy`
 
 To perform an out-of-tree build of Graphit:
 
@@ -336,6 +338,7 @@ end_time = time.perf_counter()
 
 print ("Time elapsed = " + str(end_time - start_time) + " seconds")
 ```
+This file `pagerank_delta.py` can be saved anywhere including your home directory. This is because the GraphIt compiler can be used anywhere as long as the `PYTHONPATH` environment variable points to the right directory. 
 
 We start by importing the `graphit` module. This module has helper functions to compile and invoke Graphit functions. We also import the supporting libraries required to load the graph and time the computation. 
 
@@ -348,6 +351,14 @@ We then pass this graph to the pagerank_delta program by invoking the `set_graph
 ### Running the python program
 
 Save the above python program in a file named pagerank_delta.py
+
+Before we can run the program we have to make sure that environment variable `PYTHONPATH` points to GraphIt's build directory. 
+
+This can be done using the command - 
+
+```
+export PYTHONPATH=<path/to/graphit/build>
+```
 
 We are ready to run this program using python3. We can invoke the command - 
 
