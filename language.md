@@ -473,6 +473,7 @@ Following non-scalar types are currently supported as arguments and return value
 |--------------|-------------|
 | `edgeset{Edge}` | `scipy.sparse.csr_matrix` |
 | `vector{Vertex}(X)` | `numpy.array(dtype=X)` (shape = `(num_vertices)`) | 
+| `vector[n](X)` | `numpy.array(dtype=X)` (shape= `(n)`) | 
 | `vector{Vertex}(vector[n](X))` | `numpy.array(dtype=X)` (shape = `(num_vertices, n)`) | 
 | `vector[m](vector[n](X))` | `numpy.array(dtype=X)` (shape = `(m, n)`) | 
 
