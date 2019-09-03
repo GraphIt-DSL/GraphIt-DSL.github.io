@@ -460,6 +460,7 @@ The scalar types in GrapIt directly map to their counterparts in python
 | `long`         | `long`        |
 | `double`       | `double`      |
 | `bool`         | `bool`        |
+| `Vertex`       | `int`         | 
 
 GraphIt currently doesn't have a `string` type. Hence `strings` cannot be passed or returned at this point. 
 
@@ -472,9 +473,15 @@ Following non-scalar types are currently supported as arguments and return value
 |--------------|-------------|
 | `edgeset{Edge}` | `scipy.sparse.csr_matrix` |
 | `vector{Vertex}(X)` | `numpy.array(dtype=X)` (shape = `(num_vertices)`) | 
+| `vector[n](X)` | `numpy.array(dtype=X)` (shape= `(n)`) | 
 | `vector{Vertex}(vector[n](X))` | `numpy.array(dtype=X)` (shape = `(num_vertices, n)`) | 
+| `vector[m](vector[n](X))` | `numpy.array(dtype=X)` (shape = `(m, n)`) | 
 
 Here `X` is any scalar type mapped according to the mappings in the previous section. 
+All the non-scalar types here are passed by reference except for the `edgeset{Edge}` type. This means that if the graph is updated in the Python code, it should be passed again. 
+
+The GraphIt test suite has examples on how to pass non-scalar types from python to GraphIt and returning it back. 
+These test cases can be found in the [`pybind_test.py`](https://github.com/GraphIt-DSL/graphit/blob/master/test/python/pybind_test.py) file. 
 
 ## Python module API
 
