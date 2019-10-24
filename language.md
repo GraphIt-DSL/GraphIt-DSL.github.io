@@ -57,7 +57,7 @@ function returns just a single result.)
 
 
 ## Variables
-Variables are declared in function bodies or in the global scope using the
+Variables are declared in function bodies not in the global scope using the
 `var` keyword. The following example declares an integer variable named `foo`:
 
 ```
@@ -199,8 +199,44 @@ Vertexsets are sets of vertices of a specific Element Type. `people` is a vertex
 const people : vertexset{Person} = edges.getVertices();
 
 ``` 
+# Built-in Operators
+## Delete Operator 
+Delete operator is written as `delete` in graphit. It deallocates the memory for an object. It is very similar to `delete` keyword in C++. Simple usage is:
+```
+func main()
+    var vertices : vertexset{Vertex} = edges.getVertices();
+    delete vertices;
+end
 
-# Set Opeartors 
+```
+## Intersection Operator
+Intersection operator is written as `intersection` in graphit. It essentially intersects two sorted sets using different intersection methods. Simple usage is:
+```
+const edges : edgeset{Vertex, Vertex} = ...
+
+func main()
+    ...
+    var src_nghs : vertexset{Vertex} = edges.getNgh(src);
+    var dst_nghs : vertexset{Vertex} = edges.getNgh(dst);
+    var src_ngh_size : uint_64 = edges.getOutDegree(src);
+    var dst_ngh_size : uint_64 = edges.getOutDegree(dst);
+    var value: uint_64 = intersection(src_nghs, dst_nghs, src_ngh_size, dst_ngh_size);
+end
+
+```
+Intersection operator takes four required arguments and one optional argument. 
+* __intersection(v1: vertexset, v2: vertexset, n1: uint_64, n2: uint_64, ref: uint_64 = INF)__: v1 and v2 are vertex sets we want to intersect while n1 and n2 are their respective sizes. We also have an optional parameter `ref` that tells us to not count vertices labeled beyond it. This is used for Triangular Counting algorithm to avoid double counting. This function returns **number of common elements** between two sets. Note that this operator only works for **sorted** sets. 
+
+Since there are many ways to parallelize and implement this operation, we also provide scheduling interface to tune the intersection performance. The ones we support are:
+* __NaiveIntersection__: Use two pointers to compute the intersection. 
+* __HiroshiIntersection__: Compare elements of two sets 3 by 3. This helps with branch misprediction cost. You can take a look at original paper <a href="http://delivery.acm.org/10.1145/2740000/2735518/p293-inoue.pdf?ip=128.31.37.172&id=2735518&acc=ACTIVE%20SERVICE&key=7777116298C9657D%2EDE5F786C30E1A3B4%2E4D4702B0C3E38B35%2E4D4702B0C3E38B35&__acm__=1571944913_e2e1fc50c82e33610791653f8cc373cf">here</a>. This works well when the input sets have comparable sizes.
+* __BinarySearchIntersection__: Look up elements of one list on the other one using binary search. This performs fast when the sizes of input sets are unbalanced.
+* __MultiskipIntersection__: Similar to __NaiveIntersection__, but it increments the pointer by 3 to skip unneccesary elements. This works well when the intersection is sparse.
+
+
+
+
+# Set Operators 
 ## Edgeset Operators
 
 
@@ -366,6 +402,10 @@ end
 
 * __getRandomOutNgh(v: Vertex)__: This function returns a random outgoing neighbor of the Vertex v. 
 * __getRandomInNgh(v: Vertex)__: This function returns a random incoming neighbor of the Vertex v. 
+* __getOutDegree(v: Vertex)__: This function returns a degree of the Vertex v.
+* __getOutNgh(v: Vertex)__: This function returns a vertexset of neighbors of the Vertex v.
+* __relabel()__: This function relabels vertices based on heuristic. It is recommended to use this method for bigger graphs.
+* __getRandomInNgh(v: Vertex)__: This function returns a random incoming neighbor of the Vertex v. 
 * __serialMinimumSpanningTree(graph : edgeset{Vertex, Vertex, int}, start_vertex : Vertex) -> output : vector{Vertex}(int)__: This function computes a serial Minimum Spanning Tree computation on the weighted graph `graph` from the `start_vertex`. It returns a vector of VertexIDs (integers). This vector contains the parent VertexID for each Vertex v. 
 * __serialSweepCut(g : edgeset{Edge}(Vertex, Vertex), vset : vertexset{Vertex}, val_array : vector{Vertex}(double)) -> output : vertexset{Vertex}__: This function computes a sweep cut on the vertices based on values supplied with the `val_array`, and returns a subset of the vertexset that belongs to one side of the cut. This is an operator for local graph clustering operations as documented [here](https://arxiv.org/abs/1604.07515).  
 * __load(graph_file_name : string) -> output : edgeset{Edge}(Vertex, Vertex)__: This function returns an edgeset loaded from the external file. This can load either an unweighted or weighted file.    
@@ -373,6 +413,7 @@ end
 * __stopTimer()__ -> elapsed_time : float__: This function stops the timer and returns the elapsed time in floats
 * __fabs()__: This function returns the absolute value of a float. 
 * __atoi()__: This function converts a string to an integer. 
+
 
 __NOTE__: If you need some library routine that is not included in the list, you can use the [extern functions](language#extern-functions) to provide your customized functionalities. 
 
@@ -402,8 +443,7 @@ schedule:
 
 The full set of schedules are listed in the table below. We refer users to the Section 5 of the [arxiv report](https://arxiv.org/abs/1805.00923) for details of scheduling language. 
 
-<img src="gallery/SchedulingApply.png" alt="Scheduling Functions">
-
+<img src="gallery/schedules_with_intersection.png" alt="Scheduling Functions">
 
 Here are some general guidelines for selecting a set of schedules
 
@@ -518,6 +558,17 @@ __Example with linker args__
 import graphit
 pagerank_module = graphit.compile_and_load("pagerank.gt", linker_args=["-lm"])
 ```
+
+### `graphit.compile_and_load_cache`
+
+```
+graphit.compile_and_load_cache(graphit_source_file, extern_cpp_files=[], linker_args=[], parallelization_type=graphit.PARALLEL_NONE)
+```
+*Returns `graphit.graphit_module`*
+
+This function behaves almost similar to `graphit.compile_and_load` except it tries to load the cached result if there was no modification.
+
+
 
 ### `graphit.graphit_module`
 
