@@ -538,6 +538,10 @@ Just like regular python and GraphIt functions, the arguments are passed by refe
       <td><code class="highlighter-rouge">bool</code></td>
       <td><code class="highlighter-rouge">bool</code></td>
     </tr>
+    <tr>
+      <td><code class="highlighter-rouge">Vertex</code></td>
+      <td><code class="highlighter-rouge">int</code></td>
+    </tr>
   </tbody>
 </table>
 
@@ -564,13 +568,25 @@ Just like regular python and GraphIt functions, the arguments are passed by refe
       <td><code class="highlighter-rouge">numpy.array(dtype=X)</code> (shape = <code class="highlighter-rouge">(num_vertices)</code>)</td>
     </tr>
     <tr>
+      <td><code class="highlighter-rouge">vector[n](X)</code></td>
+      <td><code class="highlighter-rouge">numpy.array(dtype=X)</code> (shape= <code class="highlighter-rouge">(n)</code>)</td>
+    </tr>
+    <tr>
       <td><code class="highlighter-rouge">vector{Vertex}(vector[n](X))</code></td>
       <td><code class="highlighter-rouge">numpy.array(dtype=X)</code> (shape = <code class="highlighter-rouge">(num_vertices, n)</code>)</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">vector[m](vector[n](X))</code></td>
+      <td><code class="highlighter-rouge">numpy.array(dtype=X)</code> (shape = <code class="highlighter-rouge">(m, n)</code>)</td>
     </tr>
   </tbody>
 </table>
 
-<p>Here <code class="highlighter-rouge">X</code> is any scalar type mapped according to the mappings in the previous section.</p>
+<p>Here <code class="highlighter-rouge">X</code> is any scalar type mapped according to the mappings in the previous section. 
+All the non-scalar types here are passed by reference except for the <code class="highlighter-rouge">edgeset{Edge}</code> type. This means that if the graph is updated in the Python code, it should be passed again.</p>
+
+<p>The GraphIt test suite has examples on how to pass non-scalar types from python to GraphIt and returning it back. 
+These test cases can be found in the <a href="https://github.com/GraphIt-DSL/graphit/blob/master/test/python/pybind_test.py"><code class="highlighter-rouge">pybind_test.py</code></a> file.</p>
 
 <h2 id="python-module-api">Python module API</h2>
 
