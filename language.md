@@ -55,6 +55,18 @@ Note that the list of function results must be surrounded by parentheses if the
 function returns more than one result. (The parentheses are optional if the
 function returns just a single result.)
 
+## Primitive Types
+GraphIt supports following primitive types so far:
+
+```
+int 
+uint 
+uint_64
+float
+double
+bool
+
+```
 
 ## Variables
 Variables are declared in function bodies not in the global scope using the
@@ -209,6 +221,59 @@ func main()
 end
 
 ```
+
+## Parallel Sum Operator 
+Parallel sum operator is written as `.sum()` in graphit. When called on a vector of objects, it computes the sum in parallel. Simple usage is:
+```
+element Vertex end
+element Edge end
+
+const edges : edgeset{Edge}(Vertex,Vertex) = load ("test.el");
+const vertices : vertexset{Vertex} = edges.getVertices();
+const vector_a : vector{Vertex}(float) = 0.0;
+
+func main()
+    % process vector_a
+    ...
+    #s2# var summation : float = vector_a.sum();
+    print summation;
+end
+
+```
+
+## Parallel Max Operator 
+Parallel sum operator is written as `.max()` in graphit. When called on a vector of objects, it finds the maximum value in the vector. Simple usage is:
+```
+element Vertex end
+element Edge end
+
+const edges : edgeset{Edge}(Vertex,Vertex) = load ("test.el");
+const vertices : vertexset{Vertex} = edges.getVertices();
+const vector_a : vector{Vertex}(float) = 0.0;
+
+func main()
+    % process vector_a
+    ...
+    #s2# var summation : float = vector_a.max();
+    print summation;
+end
+
+```
+
+## writeMin Operator
+writeMin operator atomically updates a value at some memory location by taking the minimum of the old value at that memory location and the new value. It return true if the value is updated, false otherwise. In GraphIt, writeMin operator takes three parameters - an array, index of the value, and new value.
+Simple usage is:
+```
+const edges : edgeset{Vertex, Vertex} = ...
+const f_score : vector{Vertex}(int) = some_value;
+
+func main()
+    ...
+    var new_f_score : int = f_score[src] + weight;
+    var changed : bool = writeMin(f_score, dst, new_f_score);
+end
+
+```
 ## Intersection Operator
 Intersection operator is written as `intersection` in graphit. It essentially intersects two sorted sets using different intersection methods. Simple usage is:
 ```
@@ -329,6 +394,21 @@ The filter operator is similar to the edgeset filter, except for it is applied o
 
 ### apply
 The apply operator is similar to the edgeset apply operator, but applied to a vertex. 
+
+### addVertex 
+This operator adds a new vertex to vertexset. Example usage:
+
+```
+var frontier : vertexset{Vertex} = new vertexset{Vertex}(0);
+frontier.addVertex(8);
+
+```
+
+### Vertexset Utility Functions
+* __getVertexSetSize(): output: int__ This returns the number of elements in the vertex set
+
+
+
 
 # Extern Functions
 
