@@ -5,7 +5,7 @@ title: Publications
 Publications
 ============
 
-**PriorityGraph: A Unified Programming Model for Optimizing Ordered Graph Algorithms** &nbsp; [To Appear at CGO 2020][[arxiv]]({{site.data.papers.priority_graph_arxiv.link}})<br/>
+**Optimizing Ordered Graph Algorithms with GraphIt** &nbsp; [[CGO 2020]]({{site.data.papers.og.link}})<br/>
 Yunming Zhang, Ajay Brahmakshatriya, Xinyi Chen, Laxman Dhulipala, Shoaib Kamil, Saman Amarasinghe, and Julian Shun
 
 **GraphIt- A High-Performance DSL for Graph Analytics** &nbsp; [[OOPSLA 2018]]({{site.data.papers.graphit.link}}) [[arxiv]]({{site.data.papers.graphit_arxiv.link}})  <br/>
