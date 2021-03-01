@@ -52,7 +52,7 @@ frameworks (Ligra, Green-Marl, GraphMat, Galois, Gemini, and Grazelle) by up to 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/kE9TBZr-D60" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 # Conference Talk at CGO 2021 (March 2021) 
-<iframe width="560" height="315" src="https://www.youtube.com/watch?v=38_0a0GJVTs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/38_0a0GJVTs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 GraphIt is open source, under a [commercially permissive MIT
 license](https://github.com/GraphIt-DSL/graphit/blob/master/LICENSE). We encourage
