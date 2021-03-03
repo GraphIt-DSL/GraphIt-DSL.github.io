@@ -5,7 +5,7 @@ title: Publications
 Publications
 ============
 
-**Compiling Graph Applications for GPUs with GraphIt** &nbsp; [[CGO 2021]]({{site.data.papers.g2.link}}) [[slides]]({{site.data.papers.g2.slides}})<br/>
+**Compiling Graph Applications for GPUs with GraphIt** &nbsp; [[CGO 2021 Best Paper Award]]({{site.data.papers.g2.link}}) [[slides]]({{site.data.papers.g2.slides}})<br/>
 Ajay Brahmakshatriya, Yunming Zhang, Changwan Hong, Shoaib Kamil, Julian Shun and Saman Amarasinghe
 
 **Optimizing Ordered Graph Algorithms with GraphIt** &nbsp; [[CGO 2020]]({{site.data.papers.og.link}}) [[slides]]({{site.data.papers.og.slides}})<br/>
