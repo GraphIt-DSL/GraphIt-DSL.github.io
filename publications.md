@@ -5,6 +5,9 @@ title: Publications
 Publications
 ============
 
+**Taming the Zoo: The Unified GraphIt Compiler Framework for Novel Architectures** &nbsp; [[ISCA 2021]]({{site.data.papers.ugf.link}}) <br/>
+Ajay Brahmakshatriya, Emily Furst, Victor Ying, Claire Hsu, Changwan Hong, Max Ruttenberg, Yunming Zhang, Tommy Jung, Dustin Richmond, Michael Taylor, Julian Shun, Mark Oskin, Daniel Sanchez, and Saman Amarasinghe
+
 **Compiling Graph Applications for GPUs with GraphIt** &nbsp; [[CGO 2021 Best Paper Award]]({{site.data.papers.g2.link}}) [[slides]]({{site.data.papers.g2.slides}})<br/>
 Ajay Brahmakshatriya, Yunming Zhang, Changwan Hong, Shoaib Kamil, Julian Shun and Saman Amarasinghe
 
